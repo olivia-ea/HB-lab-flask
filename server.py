@@ -20,28 +20,39 @@ INSULT = ["ugly", "angry", "silly"]
 def start_here():
     """Home page."""
 
-    return """<!doctype html><html>Hi! This is the home page.<a href = "/hello">hello</a></html>"""
+    return """<!doctype html><html>Hi! This is the home page.<a href = "/options">options</a></html>"""
 
 
-@app.route("/hello")
-def say_hello():
+@app.route("/options")
+def choose_options():
+    return f"""
+    <!doctype html>
+    <html>
+      <head>
+        <title>Choose your path</title>
+      </head>
+      <body>
+        <h1>Hi There!</h1>
+        <form action="/compliment-choice">
+            Compliment<input type = "Submit" value = "submit compliment">
+        </form>
+        <form action="/diss-choice">
+            Insult<input type = "Submit" value = "submit insult">
+        </form>
+      </body>
+    </html>
+    """
+
+
+
+@app.route("/compliment-choice")
+def compliment_choice():
     """Say hello and prompt for user's name."""
     # loop over list
     compliment_html = []
     for compliment in AWESOMENESS:
         compliment_html.append(f"<option value={compliment}>{compliment}</option>")
     phrase = ",".join(compliment_html)
-
-
-    insult_html = []
-    for disses in INSULT:
-        insult_html.append(f"""<input type = "radio" name = "diss" value = {disses}>{disses} """)
-    phrase_insult = " ".join(insult_html)
-    # print(compliment_html)
-    # append f"<option {dlafjsdkf}>{dlkjfalksdjf}"
-    # phrase = ", ".join(["<b>cool</b>", "<i>smart</i>", "happy", "weird"])
-
-    # print(phrase)
 
     return f"""
     <!doctype html>
@@ -60,6 +71,28 @@ def say_hello():
           </select> 
           <input type="submit" value="Submit compliment">
         </form>
+      </body>
+    </html>
+    """
+
+
+@app.route("/diss-choice")
+def diss_choice():
+    insult_html = []
+    for disses in INSULT:
+        insult_html.append(f'<input type = "radio" name = "diss" value = {disses}>{disses}')
+    phrase_insult = " ".join(insult_html)
+
+
+
+    return f"""
+    <!doctype html>
+    <html>
+      <head>
+        <title>Hi There!</title>
+      </head>
+      <body>
+        <h1>Hi There!</h1>
         <form action="/diss">
           <br>
           What's your name? <input type="text" name="person">
@@ -73,6 +106,12 @@ def say_hello():
       </body>
     </html>
     """
+
+    # print(compliment_html)
+    # append f"<option {dlafjsdkf}>{dlkjfalksdjf}"
+    # phrase = ", ".join(["<b>cool</b>", "<i>smart</i>", "happy", "weird"])
+
+    # print(phrase)
 
 
 @app.route("/greet")
